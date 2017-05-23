@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0 100px;
+        }
+        .header {
+            width: 100%;
+            height: 300px;
+            background-color: darkgrey;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .content .main {
+            float: left;
+            width: 70%;
+        }
+        .content .right {
+            float: right;
+            width: 30%;
+            height: 400px;
+            background-color: darkgrey;
+        }
+        .content .grid {
+            box-shadow: 1px 1px 1px #333;
+            border-bottom: 1px solid black;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+    <div class="content">
+        <div class="main">
+            
+        </div>
+        <div class="right"></div>
+    </div>
+    <script type="text/template" id="moban">
+        <div class="grid">
+            <h1><%= title %></h1>
+            <p><%= timer %></p>
+            <div>
+                <%= content %>
+            </div>
+        </div>
+    </script>
+    <script src="jqueryNew.js"></script>
+    <script src="underscore-min.js"></script>
+    <script>
+        //得到模版内容
+        var mobanString = $("#moban").html();
+        //模版函数
+        var compiled = _.template(mobanString);
+        $.get("/news", function (data, status) {
+            for (var i = 0; i < data.length; i++) {
+                var compiledString = compiled(data[i]);  
+                $(".main").append($(compiledString));
+            }
+        })
+    </script>
+</body>
+</html>
